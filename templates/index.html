@@ -31,7 +31,8 @@
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-       }
+        }
+
         p.subtitle {
             color: #b8b8d1;
             margin-bottom: 40px;
@@ -90,6 +91,67 @@
         .btn:hover {
             opacity: 0.85;
         }
+
+        .table-container {
+            margin-top: 50px;
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            color: #00c6ff;
+            font-weight: 600;
+        }
+
+        td {
+            color: #e0e0e0;
+        }
+        .table-container {
+            margin-top: 50px;
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            color: #00c6ff;
+            font-weight: 600;
+        }
+
+        td {
+            color: #e0e0e0;
+        }
     </style>
 </head>
 <body>
@@ -99,20 +161,37 @@
 
     <div class="cards-container">
         <div class="card">
-            <h2>0</h2>
+            <h2>{{ total_students }}</h2>
             <p>Total Students</p>
         </div>
         <div class="card">
-            <h2>0%</h2>
+            <h2>{{ average_marks }}</h2>
             <p>Average Marks</p>
         </div>
         <div class="card">
-            <h2>0</h2>
+            <h2>{{ top_performer }}</h2>
             <p>Top Performer</p>
         </div>
     </div>
 
-    <a href="#" class="btn">+ Add Student</a>
+    <a href="/add-student" class="btn">+ Add Student</a>
+
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Marks</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 
 </body>
 </html>
