@@ -122,35 +122,21 @@
         td {
             color: #e0e0e0;
         }
-        .table-container {
-            margin-top: 50px;
-            width: 100%;
-            max-width: 700px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        th {
-            color: #00c6ff;
+        .delete-btn {
+            color: #ff4d6d;
+            text-decoration: none;
             font-weight: 600;
+            padding: 6px 14px;
+            border: 1px solid #ff4d6d;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
         }
 
-        td {
-            color: #e0e0e0;
+        .delete-btn:hover {
+            background: #ff4d6d;
+            color: white;
         }
     </style>
 </head>
@@ -182,12 +168,14 @@
                 <th>Name</th>
                 <th>Class</th>
                 <th>Marks</th>
+                <th>Action</th>
             </tr>
             {% for student in students %}
             <tr>
                 <td>{{ student[1] }}</td>
                 <td>{{ student[2] }}</td>
                 <td>{{ student[3] }}</td>
+                <td><a href="/delete/{{ student[0] }}" class="delete-btn">Delete</a></td>
             </tr>
             {% endfor %}
         </table>

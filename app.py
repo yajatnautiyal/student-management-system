@@ -46,5 +46,14 @@ def add_student():
 
     return redirect('/')
 
+@app.route('/delete/<int:student_id>')
+def delete_student(student_id):
+    conn = sqlite3.connect('students.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM students WHERE id = ?', (student_id,))
+    conn.commit()
+    conn.close()
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run(debug=True)
