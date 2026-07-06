@@ -55,5 +55,29 @@ def delete_student(student_id):
     conn.close()
     return redirect('/')
 
+@app.route('/edit/<int:student_id>')
+def edit_student_page(student_id):
+    conn = sqlite3.connect('students.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM students WHERE id = ?', (student_id,))
+    student = cursor.fetchone()
+    conn.close()
+    return render_template('edit_student.html', student=student)
+
+@app.route('/update/<int:student_id>', methods=['POST'])
+def update_student(student_id):
+    name = request.form['name']
+    student_class = request.form['class']
+    marks = request.form['marks']
+
+    conn = sqlite3.connect('students.db')
+    cursor = conn.cursor()
+    cursor.execute('UPDATE students SET name = ?, class = ?, marks = ? WHERE id = ?',
+                   (name, student_class, marks, student_id))
+    conn.commit()
+    conn.close()
+
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run(debug=True)
