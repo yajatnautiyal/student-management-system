@@ -15,7 +15,7 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #0d0d0d);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,14 +27,15 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 10px;
-            background: linear-gradient(90deg, #00c6ff, #a445ff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffffff;
+        }
+
+        h1 span {
+            color: #00e5cc;
         }
 
         p.subtitle {
-            color: #b8b8d1;
+            color: #999999;
             margin-bottom: 40px;
         }
 
@@ -48,9 +49,9 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 25px;
             width: 220px;
@@ -60,17 +61,18 @@
 
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(164, 69, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 229, 204, 0.15);
+            border-color: rgba(0, 229, 204, 0.3);
         }
 
         .card h2 {
             font-size: 2rem;
-            color: #00c6ff;
+            color: #00e5cc;
             margin-bottom: 5px;
         }
 
         .card p {
-            color: #b8b8d1;
+            color: #999999;
             font-size: 0.9rem;
         }
 
@@ -79,28 +81,29 @@
             padding: 14px 35px;
             border: none;
             border-radius: 30px;
-            background: linear-gradient(90deg, #00c6ff, #a445ff);
-            color: white;
+            background: #00e5cc;
+            color: #0a0a0a;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.2s ease;
         }
 
         .btn:hover {
             opacity: 0.85;
+            transform: translateY(-2px);
         }
 
         .table-container {
             margin-top: 50px;
             width: 100%;
             max-width: 700px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
             border-radius: 16px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         table {
@@ -111,35 +114,24 @@
         th, td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         th {
-            color: #00c6ff;
+            color: #00e5cc;
             font-weight: 600;
         }
 
         td {
-            color: #e0e0e0;
-        }
-
-        .delete-btn {
-            color: #ff4d6d;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 6px 14px;
-            border: 1px solid #ff4d6d;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
+            color: #d0d0d0;
         }
 
         .edit-btn {
-            color: #00c6ff;
+            color: #00e5cc;
             text-decoration: none;
             font-weight: 600;
             padding: 6px 14px;
-            border: 1px solid #00c6ff;
+            border: 1px solid #00e5cc;
             border-radius: 20px;
             font-size: 0.85rem;
             transition: all 0.3s ease;
@@ -147,19 +139,30 @@
         }
 
         .edit-btn:hover {
-            background: #00c6ff;
-            color: white;
+            background: #00e5cc;
+            color: #0a0a0a;
+        }
+
+        .delete-btn {
+            color: #ff5c5c;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 14px;
+            border: 1px solid #ff5c5c;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
         }
 
         .delete-btn:hover {
-            background: #ff4d6d;
-            color: white;
+            background: #ff5c5c;
+            color: #0a0a0a;
         }
     </style>
 </head>
 <body>
 
-    <h1>Student Management System</h1>
+    <h1>Student <span>Management</span> System</h1>
     <p class="subtitle">Manage student records with a modern dashboard</p>
 
     <div class="cards-container">
@@ -168,8 +171,8 @@
             <p>Total Students</p>
         </div>
         <div class="card">
-            <h2>{{ average_marks }}</h2>
-            <p>Average Marks</p>
+            <h2>{{ average_cgpa }}</h2>
+            <p>Average CGPA</p>
         </div>
         <div class="card">
             <h2>{{ top_performer }}</h2>
@@ -183,25 +186,8 @@
         <table>
             <tr>
                 <th>Name</th>
-                <th>Class</th>
-                <th>Marks</th>
-                <th>Action</th>
-            </tr>
-            {% for student in students %}
-            <tr>
-                <td>{{ student[1] }}</td>
-                <td>{{ student[2] }}</td>
-                <td>{{ student[3] }}</td>
-                <td><a href="/delete/{{ student[0] }}" class="delete-btn">Delete</a></td>
-            </tr>
-            {% endfor %}
-
-            <div class="table-container">
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Class</th>
-                <th>Marks</th>
+                <th>Department</th>
+                <th>CGPA</th>
                 <th>Action</th>
             </tr>
             {% for student in students %}
@@ -215,9 +201,6 @@
                 </td>
             </tr>
             {% endfor %}
-        </table>
-    </div>
-
         </table>
     </div>
 

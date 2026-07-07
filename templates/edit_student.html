@@ -65,6 +65,27 @@
             border-color: #00c6ff;
         }
 
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #00c6ff;
+        }
+
+        select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
         button {
             width: 100%;
             padding: 14px;
@@ -99,11 +120,38 @@
             <label>Student Name</label>
             <input type="text" name="name" value="{{ student[1] }}" required>
 
-            <label>Class</label>
-            <input type="text" name="class" value="{{ student[2] }}" required>
+            <label>Department / Course</label>
+            <select name="department" required>
+                <option value="">-- Select Department --</option>
+                <option value="BCA" {% if student[2] == 'BCA' %}selected{% endif %}>BCA</option>
+                <option value="B.Tech CSE" {% if student[2] == 'B.Tech CSE' %}selected{% endif %}>B.Tech CSE</option>
+                <option value="B.Tech IT" {% if student[2] == 'B.Tech IT' %}selected{% endif %}>B.Tech IT</option>
+                <option value="B.Tech ECE" {% if student[2] == 'B.Tech ECE' %}selected{% endif %}>B.Tech ECE</option>
+                <option value="B.Tech Mechanical" {% if student[2] == 'B.Tech Mechanical' %}selected{% endif %}>B.Tech Mechanical</option>
+                <option value="B.Tech Civil" {% if student[2] == 'B.Tech Civil' %}selected{% endif %}>B.Tech Civil</option>
+                <option value="B.Tech Electrical" {% if student[2] == 'B.Tech Electrical' %}selected{% endif %}>B.Tech Electrical</option>
+                <option value="BBA" {% if student[2] == 'BBA' %}selected{% endif %}>BBA</option>
+                <option value="B.Com" {% if student[2] == 'B.Com' %}selected{% endif %}>B.Com</option>
+                <option value="BA" {% if student[2] == 'BA' %}selected{% endif %}>BA</option>
+                <option value="BSc" {% if student[2] == 'BSc' %}selected{% endif %}>BSc</option>
+                <option value="LLB" {% if student[2] == 'LLB' %}selected{% endif %}>LLB (Law)</option>
+                <option value="BA LLB" {% if student[2] == 'BA LLB' %}selected{% endif %}>BA LLB (Law)</option>
+                <option value="B.Com LLB" {% if student[2] == 'B.Com LLB' %}selected{% endif %}>B.Com LLB (Law)</option>
+                <option value="MBA" {% if student[2] == 'MBA' %}selected{% endif %}>MBA</option>
+                <option value="MCA" {% if student[2] == 'MCA' %}selected{% endif %}>MCA</option>
+                <option value="M.Tech" {% if student[2] == 'M.Tech' %}selected{% endif %}>M.Tech</option>
+                <option value="M.Com" {% if student[2] == 'M.Com' %}selected{% endif %}>M.Com</option>
+                <option value="MA" {% if student[2] == 'MA' %}selected{% endif %}>MA</option>
+                <option value="MSc" {% if student[2] == 'MSc' %}selected{% endif %}>MSc</option>
+                <option value="B.Pharma" {% if student[2] == 'B.Pharma' %}selected{% endif %}>B.Pharma (Pharmacy)</option>
+                <option value="BDS" {% if student[2] == 'BDS' %}selected{% endif %}>BDS (Dental)</option>
+                <option value="MBBS" {% if student[2] == 'MBBS' %}selected{% endif %}>MBBS (Medical)</option>
+                <option value="B.Ed" {% if student[2] == 'B.Ed' %}selected{% endif %}>B.Ed (Education)</option>
+                <option value="B.Arch" {% if student[2] == 'B.Arch' %}selected{% endif %}>B.Arch (Architecture)</option>
+            </select>
 
-            <label>Marks</label>
-            <input type="number" step="0.1" name="marks" value="{{ student[3] }}" required>
+            <label>CGPA</label>
+            <input type="number" step="0.01" min="0" max="10" name="cgpa" value="{{ student[3] }}" required>
 
             <button type="submit">Update Student</button>
         </form>

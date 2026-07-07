@@ -14,17 +14,17 @@ def home():
     total_students = len(students)
 
     if total_students > 0:
-        total_marks = sum(student[3] for student in students)
-        average_marks = round(total_marks / total_students, 2)
+        total_cgpa = sum(student[3] for student in students)
+        average_cgpa = round(total_cgpa / total_students, 2)
         top_performer = max(students, key=lambda s: s[3])[1]
     else:
-        average_marks = 0
+        average_cgpa = 0
         top_performer = "N/A"
 
     return render_template('index.html', 
                             students=students, 
                             total_students=total_students,
-                            average_marks=average_marks,
+                            average_cgpa=average_cgpa,
                             top_performer=top_performer)
 
 @app.route('/add-student')
@@ -34,13 +34,13 @@ def add_student_page():
 @app.route('/add', methods=['POST'])
 def add_student():
     name = request.form['name']
-    student_class = request.form['class']
-    marks = request.form['marks']
+    department = request.form['department']
+    cgpa = request.form['cgpa']
 
     conn = sqlite3.connect('students.db')
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO students (name, class, marks) VALUES (?, ?, ?)',
-                   (name, student_class, marks))
+    cursor.execute('INSERT INTO students (name, department, cgpa) VALUES (?, ?, ?)',
+                   (name, department, cgpa))
     conn.commit()
     conn.close()
 
@@ -67,13 +67,13 @@ def edit_student_page(student_id):
 @app.route('/update/<int:student_id>', methods=['POST'])
 def update_student(student_id):
     name = request.form['name']
-    student_class = request.form['class']
-    marks = request.form['marks']
+    department = request.form['department']
+    cgpa = request.form['cgpa']
 
     conn = sqlite3.connect('students.db')
     cursor = conn.cursor()
-    cursor.execute('UPDATE students SET name = ?, class = ?, marks = ? WHERE id = ?',
-                   (name, student_class, marks, student_id))
+    cursor.execute('UPDATE students SET name = ?, department = ?, cgpa = ? WHERE id = ?',
+                   (name, department, cgpa, student_id))
     conn.commit()
     conn.close()
 

@@ -8,8 +8,8 @@ def init_db():
         CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            class TEXT NOT NULL,
-            marks REAL NOT NULL
+            department TEXT NOT NULL,
+            cgpa REAL NOT NULL
         )
     ''')
     
