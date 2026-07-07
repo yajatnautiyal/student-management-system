@@ -15,7 +15,7 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #0d0d0d);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,16 +27,13 @@
         h1 {
             font-size: 2rem;
             margin-bottom: 30px;
-            background: linear-gradient(90deg, #00c6ff, #a445ff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #00e5cc;
         }
 
         .form-card {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 40px;
             width: 350px;
@@ -45,44 +42,28 @@
         label {
             display: block;
             margin-bottom: 6px;
-            color: #b8b8d1;
+            color: #999999;
             font-size: 0.9rem;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
             color: white;
             font-size: 1rem;
         }
 
-        input:focus {
+        input:focus, select:focus {
             outline: none;
-            border-color: #00c6ff;
-        }
-
-        select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            font-size: 1rem;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #00c6ff;
+            border-color: #00e5cc;
         }
 
         select option {
-            background: #1a1a2e;
+            background: #1a1a1a;
             color: white;
         }
 
@@ -91,11 +72,12 @@
             padding: 14px;
             border: none;
             border-radius: 30px;
-            background: linear-gradient(90deg, #00c6ff, #a445ff);
-            color: white;
+            background: #00e5cc;
+            color: #0a0a0a;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
+            transition: opacity 0.3s ease;
         }
 
         button:hover {
@@ -106,8 +88,12 @@
             display: block;
             text-align: center;
             margin-top: 20px;
-            color: #b8b8d1;
+            color: #999999;
             text-decoration: none;
+        }
+
+        a:hover {
+            color: #00e5cc;
         }
     </style>
 </head>
@@ -123,31 +109,31 @@
             <label>Department / Course</label>
             <select name="department" required>
                 <option value="">-- Select Department --</option>
-                <option value="BCA" {% if student[2] == 'BCA' %}selected{% endif %}>BCA</option>
-                <option value="B.Tech CSE" {% if student[2] == 'B.Tech CSE' %}selected{% endif %}>B.Tech CSE</option>
-                <option value="B.Tech IT" {% if student[2] == 'B.Tech IT' %}selected{% endif %}>B.Tech IT</option>
-                <option value="B.Tech ECE" {% if student[2] == 'B.Tech ECE' %}selected{% endif %}>B.Tech ECE</option>
-                <option value="B.Tech Mechanical" {% if student[2] == 'B.Tech Mechanical' %}selected{% endif %}>B.Tech Mechanical</option>
-                <option value="B.Tech Civil" {% if student[2] == 'B.Tech Civil' %}selected{% endif %}>B.Tech Civil</option>
-                <option value="B.Tech Electrical" {% if student[2] == 'B.Tech Electrical' %}selected{% endif %}>B.Tech Electrical</option>
-                <option value="BBA" {% if student[2] == 'BBA' %}selected{% endif %}>BBA</option>
-                <option value="B.Com" {% if student[2] == 'B.Com' %}selected{% endif %}>B.Com</option>
-                <option value="BA" {% if student[2] == 'BA' %}selected{% endif %}>BA</option>
-                <option value="BSc" {% if student[2] == 'BSc' %}selected{% endif %}>BSc</option>
-                <option value="LLB" {% if student[2] == 'LLB' %}selected{% endif %}>LLB (Law)</option>
-                <option value="BA LLB" {% if student[2] == 'BA LLB' %}selected{% endif %}>BA LLB (Law)</option>
-                <option value="B.Com LLB" {% if student[2] == 'B.Com LLB' %}selected{% endif %}>B.Com LLB (Law)</option>
-                <option value="MBA" {% if student[2] == 'MBA' %}selected{% endif %}>MBA</option>
-                <option value="MCA" {% if student[2] == 'MCA' %}selected{% endif %}>MCA</option>
-                <option value="M.Tech" {% if student[2] == 'M.Tech' %}selected{% endif %}>M.Tech</option>
-                <option value="M.Com" {% if student[2] == 'M.Com' %}selected{% endif %}>M.Com</option>
-                <option value="MA" {% if student[2] == 'MA' %}selected{% endif %}>MA</option>
-                <option value="MSc" {% if student[2] == 'MSc' %}selected{% endif %}>MSc</option>
-                <option value="B.Pharma" {% if student[2] == 'B.Pharma' %}selected{% endif %}>B.Pharma (Pharmacy)</option>
-                <option value="BDS" {% if student[2] == 'BDS' %}selected{% endif %}>BDS (Dental)</option>
-                <option value="MBBS" {% if student[2] == 'MBBS' %}selected{% endif %}>MBBS (Medical)</option>
-                <option value="B.Ed" {% if student[2] == 'B.Ed' %}selected{% endif %}>B.Ed (Education)</option>
-                <option value="B.Arch" {% if student[2] == 'B.Arch' %}selected{% endif %}>B.Arch (Architecture)</option>
+                <option value="BCA" {% if student[2] == "BCA" %}selected{% endif %}>BCA</option>
+                <option value="B.Tech CSE" {% if student[2] == "B.Tech CSE" %}selected{% endif %}>B.Tech CSE</option>
+                <option value="B.Tech IT" {% if student[2] == "B.Tech IT" %}selected{% endif %}>B.Tech IT</option>
+                <option value="B.Tech ECE" {% if student[2] == "B.Tech ECE" %}selected{% endif %}>B.Tech ECE</option>
+                <option value="B.Tech Mechanical" {% if student[2] == "B.Tech Mechanical" %}selected{% endif %}>B.Tech Mechanical</option>
+                <option value="B.Tech Civil" {% if student[2] == "B.Tech Civil" %}selected{% endif %}>B.Tech Civil</option>
+                <option value="B.Tech Electrical" {% if student[2] == "B.Tech Electrical" %}selected{% endif %}>B.Tech Electrical</option>
+                <option value="BBA" {% if student[2] == "BBA" %}selected{% endif %}>BBA</option>
+                <option value="B.Com" {% if student[2] == "B.Com" %}selected{% endif %}>B.Com</option>
+                <option value="BA" {% if student[2] == "BA" %}selected{% endif %}>BA</option>
+                <option value="BSc" {% if student[2] == "BSc" %}selected{% endif %}>BSc</option>
+                <option value="LLB" {% if student[2] == "LLB" %}selected{% endif %}>LLB (Law)</option>
+                <option value="BA LLB" {% if student[2] == "BA LLB" %}selected{% endif %}>BA LLB (Law)</option>
+                <option value="B.Com LLB" {% if student[2] == "B.Com LLB" %}selected{% endif %}>B.Com LLB (Law)</option>
+                <option value="MBA" {% if student[2] == "MBA" %}selected{% endif %}>MBA</option>
+                <option value="MCA" {% if student[2] == "MCA" %}selected{% endif %}>MCA</option>
+                <option value="M.Tech" {% if student[2] == "M.Tech" %}selected{% endif %}>M.Tech</option>
+                <option value="M.Com" {% if student[2] == "M.Com" %}selected{% endif %}>M.Com</option>
+                <option value="MA" {% if student[2] == "MA" %}selected{% endif %}>MA</option>
+                <option value="MSc" {% if student[2] == "MSc" %}selected{% endif %}>MSc</option>
+                <option value="B.Pharma" {% if student[2] == "B.Pharma" %}selected{% endif %}>B.Pharma (Pharmacy)</option>
+                <option value="BDS" {% if student[2] == "BDS" %}selected{% endif %}>BDS (Dental)</option>
+                <option value="MBBS" {% if student[2] == "MBBS" %}selected{% endif %}>MBBS (Medical)</option>
+                <option value="B.Ed" {% if student[2] == "B.Ed" %}selected{% endif %}>B.Ed (Education)</option>
+                <option value="B.Arch" {% if student[2] == "B.Arch" %}selected{% endif %}>B.Arch (Architecture)</option>
             </select>
 
             <label>CGPA</label>

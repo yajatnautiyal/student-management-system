@@ -4,10 +4,22 @@ import sqlite3
 app = Flask(__name__)
 
 @app.route('/')
+
+
 def home():
+    search_query = request.args.get('search', '')
+
     conn = sqlite3.connect('students.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM students')
+
+    if search_query:
+        cursor.execute('''
+            SELECT * FROM students 
+            WHERE name LIKE ? OR department LIKE ?
+        ''', ('%' + search_query + '%', '%' + search_query + '%'))
+    else:
+        cursor.execute('SELECT * FROM students')
+
     students = cursor.fetchall()
     conn.close()
 
@@ -25,7 +37,8 @@ def home():
                             students=students, 
                             total_students=total_students,
                             average_cgpa=average_cgpa,
-                            top_performer=top_performer)
+                            top_performer=top_performer,
+                            search_query=search_query)
 
 @app.route('/add-student')
 def add_student_page():

@@ -36,7 +36,45 @@
 
         p.subtitle {
             color: #999999;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            border-color: #00e5cc;
+        }
+
+        .search-form button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: #00e5cc;
+            color: #0a0a0a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .search-form button:hover {
+            opacity: 0.85;
         }
 
         .cards-container {
@@ -164,6 +202,11 @@
 
     <h1>Student <span>Management</span> System</h1>
     <p class="subtitle">Manage student records with a modern dashboard</p>
+
+    <form action="/" method="GET" class="search-form">
+        <input type="text" name="search" placeholder="Search by name or department..." value="{{ search_query }}">
+        <button type="submit">Search</button>
+    </form>
 
     <div class="cards-container">
         <div class="card">
