@@ -1,13 +1,16 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import sqlite3
 
 app = Flask(__name__)
+app.secret_key = 'your-secret-key-change-this-later'
+
+ADMIN_USERNAME = 'admin'
+ADMIN_PASSWORD = 'admin123'
 
 @app.route('/')
-
-
 def home():
     search_query = request.args.get('search', '')
+    performance_filter = request.args.get('performance', '')
 
     conn = sqlite3.connect('students.db')
     cursor = conn.cursor()
@@ -20,8 +23,24 @@ def home():
     else:
         cursor.execute('SELECT * FROM students')
 
-    students = cursor.fetchall()
+    all_students = cursor.fetchall()
     conn.close()
+
+    students_with_performance = []
+    for student in all_students:
+        cgpa = student[3]
+        if cgpa >= 7.5:
+            performance = "Above Average"
+        elif cgpa >= 5.5:
+            performance = "Average"
+        else:
+            performance = "Below Average"
+        students_with_performance.append(student + (performance,))
+
+    if performance_filter:
+        students = [s for s in students_with_performance if s[4] == performance_filter]
+    else:
+        students = students_with_performance
 
     total_students = len(students)
 
@@ -38,14 +57,39 @@ def home():
                             total_students=total_students,
                             average_cgpa=average_cgpa,
                             top_performer=top_performer,
-                            search_query=search_query)
+                            search_query=search_query,
+                            performance_filter=performance_filter,
+                            logged_in=session.get('logged_in', False))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['logged_in'] = True
+            return redirect('/')
+        else:
+            error = "Invalid username or password"
+    return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect('/')
 
 @app.route('/add-student')
 def add_student_page():
+    if not session.get('logged_in'):
+        return redirect('/login')
     return render_template('add_student.html')
 
 @app.route('/add', methods=['POST'])
 def add_student():
+    if not session.get('logged_in'):
+        return redirect('/login')
+
     name = request.form['name']
     department = request.form['department']
     cgpa = request.form['cgpa']
@@ -61,6 +105,9 @@ def add_student():
 
 @app.route('/delete/<int:student_id>')
 def delete_student(student_id):
+    if not session.get('logged_in'):
+        return redirect('/login')
+
     conn = sqlite3.connect('students.db')
     cursor = conn.cursor()
     cursor.execute('DELETE FROM students WHERE id = ?', (student_id,))
@@ -70,6 +117,9 @@ def delete_student(student_id):
 
 @app.route('/edit/<int:student_id>')
 def edit_student_page(student_id):
+    if not session.get('logged_in'):
+        return redirect('/login')
+
     conn = sqlite3.connect('students.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM students WHERE id = ?', (student_id,))
@@ -79,6 +129,9 @@ def edit_student_page(student_id):
 
 @app.route('/update/<int:student_id>', methods=['POST'])
 def update_student(student_id):
+    if not session.get('logged_in'):
+        return redirect('/login')
+
     name = request.form['name']
     department = request.form['department']
     cgpa = request.form['cgpa']

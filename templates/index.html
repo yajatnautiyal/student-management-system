@@ -21,6 +21,28 @@
             align-items: center;
             padding: 40px 20px;
             color: #ffffff;
+            position: relative;
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+
+        .top-bar a {
+            color: #999999;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .top-bar a:hover {
+            border-color: #00e5cc;
+            color: #00e5cc;
         }
 
         h1 {
@@ -44,11 +66,13 @@
             gap: 10px;
             margin-bottom: 30px;
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
+            flex-wrap: wrap;
         }
 
         .search-form input {
             flex: 1;
+            min-width: 150px;
             padding: 12px 16px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -57,9 +81,23 @@
             font-size: 0.95rem;
         }
 
-        .search-form input:focus {
+        .search-form select {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .search-form input:focus, .search-form select:focus {
             outline: none;
             border-color: #00e5cc;
+        }
+
+        .search-form select option {
+            background: #1a1a1a;
+            color: white;
         }
 
         .search-form button {
@@ -136,12 +174,13 @@
         .table-container {
             margin-top: 50px;
             width: 100%;
-            max-width: 700px;
+            max-width: 800px;
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
             border-radius: 16px;
             padding: 20px;
             border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow-x: auto;
         }
 
         table {
@@ -153,6 +192,7 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            white-space: nowrap;
         }
 
         th {
@@ -162,6 +202,31 @@
 
         td {
             color: #d0d0d0;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-above-average {
+            background: rgba(0, 229, 204, 0.15);
+            color: #00e5cc;
+            border: 1px solid #00e5cc;
+        }
+
+        .badge-average {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .badge-below-average {
+            background: rgba(255, 92, 92, 0.15);
+            color: #ff5c5c;
+            border: 1px solid #ff5c5c;
         }
 
         .edit-btn {
@@ -196,15 +261,35 @@
             background: #ff5c5c;
             color: #0a0a0a;
         }
+
+        .no-access {
+            color: #666666;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
+
+    <div class="top-bar">
+        {% if logged_in %}
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Admin Login</a>
+        {% endif %}
+    </div>
 
     <h1>Student <span>Management</span> System</h1>
     <p class="subtitle">Manage student records with a modern dashboard</p>
 
     <form action="/" method="GET" class="search-form">
         <input type="text" name="search" placeholder="Search by name or department..." value="{{ search_query }}">
+        <select name="performance">
+            <option value="">All Performance</option>
+            <option value="Above Average" {% if performance_filter == "Above Average" %}selected{% endif %}>Above Average</option>
+            <option value="Average" {% if performance_filter == "Average" %}selected{% endif %}>Average</option>
+            <option value="Below Average" {% if performance_filter == "Below Average" %}selected{% endif %}>Below Average</option>
+        </select>
         <button type="submit">Search</button>
     </form>
 
@@ -223,7 +308,9 @@
         </div>
     </div>
 
+    {% if logged_in %}
     <a href="/add-student" class="btn">+ Add Student</a>
+    {% endif %}
 
     <div class="table-container">
         <table>
@@ -231,7 +318,10 @@
                 <th>Name</th>
                 <th>Department</th>
                 <th>CGPA</th>
+                <th>Performance</th>
+                {% if logged_in %}
                 <th>Action</th>
+                {% endif %}
             </tr>
             {% for student in students %}
             <tr>
@@ -239,9 +329,14 @@
                 <td>{{ student[2] }}</td>
                 <td>{{ student[3] }}</td>
                 <td>
+                    <span class="badge badge-{{ student[4] | replace(' ', '-') | lower }}">{{ student[4] }}</span>
+                </td>
+                {% if logged_in %}
+                <td>
                     <a href="/edit/{{ student[0] }}" class="edit-btn">Edit</a>
                     <a href="/delete/{{ student[0] }}" class="delete-btn">Delete</a>
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
