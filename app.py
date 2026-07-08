@@ -1,24 +1,30 @@
 from flask import Flask, render_template, request, redirect, session
-import sqlite3
+import psycopg2
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-change-this-later'
+app.secret_key = 'x7Kp9mQ2vL5rT8wY3nZ6bH4jF1cA0dE'
 
 ADMIN_USERNAME = 'useradm'
-ADMIN_PASSWORD = '@yajat1121'
+ADMIN_PASSWORD = '@yajat2111'
+
+def get_connection():
+    database_url = os.environ.get('DATABASE_URL')
+    conn = psycopg2.connect(database_url)
+    return conn
 
 @app.route('/')
 def home():
     search_query = request.args.get('search', '')
     performance_filter = request.args.get('performance', '')
 
-    conn = sqlite3.connect('students.db')
+    conn = get_connection()
     cursor = conn.cursor()
 
     if search_query:
         cursor.execute('''
             SELECT * FROM students 
-            WHERE name LIKE ? OR department LIKE ?
+            WHERE name ILIKE %s OR department ILIKE %s
         ''', ('%' + search_query + '%', '%' + search_query + '%'))
     else:
         cursor.execute('SELECT * FROM students')
@@ -94,9 +100,9 @@ def add_student():
     department = request.form['department']
     cgpa = request.form['cgpa']
 
-    conn = sqlite3.connect('students.db')
+    conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO students (name, department, cgpa) VALUES (?, ?, ?)',
+    cursor.execute('INSERT INTO students (name, department, cgpa) VALUES (%s, %s, %s)',
                    (name, department, cgpa))
     conn.commit()
     conn.close()
@@ -108,9 +114,9 @@ def delete_student(student_id):
     if not session.get('logged_in'):
         return redirect('/login')
 
-    conn = sqlite3.connect('students.db')
+    conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM students WHERE id = ?', (student_id,))
+    cursor.execute('DELETE FROM students WHERE id = %s', (student_id,))
     conn.commit()
     conn.close()
     return redirect('/')
@@ -120,9 +126,9 @@ def edit_student_page(student_id):
     if not session.get('logged_in'):
         return redirect('/login')
 
-    conn = sqlite3.connect('students.db')
+    conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM students WHERE id = ?', (student_id,))
+    cursor.execute('SELECT * FROM students WHERE id = %s', (student_id,))
     student = cursor.fetchone()
     conn.close()
     return render_template('edit_student.html', student=student)
@@ -136,9 +142,9 @@ def update_student(student_id):
     department = request.form['department']
     cgpa = request.form['cgpa']
 
-    conn = sqlite3.connect('students.db')
+    conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('UPDATE students SET name = ?, department = ?, cgpa = ? WHERE id = ?',
+    cursor.execute('UPDATE students SET name = %s, department = %s, cgpa = %s WHERE id = %s',
                    (name, department, cgpa, student_id))
     conn.commit()
     conn.close()

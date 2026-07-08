@@ -1,68 +1,67 @@
-#  Student Management System
+# Student Management System
 
-A full-stack web application built with Flask and SQLite to manage student records — including adding, viewing, searching, editing, and deleting students, with a live analytics dashboard.
+A web application for managing student records, built with Flask and PostgreSQL. Supports adding, editing, deleting, and searching students, with an admin login and a dashboard showing live stats.
+
+**Live demo:** https://your-actual-render-link.onrender.com
+(Login: use the credentials below, or just browse as a guest to see the read-only view)
 
 ## Features
 
-- **Add Students** — Store student name, department/course, and CGPA
-- **View Dashboard** — Real-time stats: total students, average CGPA, and top performer
-- **Search** — Filter students by name or department instantly
-- **Edit Records** — Update any student's details via a pre-filled form
-- **Delete Records** — Remove students from the database
-- **Modern UI** — Dark graphite theme with glassmorphism design
+- Add, edit, and delete student records (name, department, CGPA)
+- Dashboard with total students, average CGPA, and top performer, updated in real time
+- Search by name or department
+- Filter students by performance (Above Average / Average / Below Average, based on CGPA)
+- Admin login — only logged-in users can add/edit/delete; everyone else gets a read-only view
+- Dark UI with a glassmorphism design
 
-##  Tech Stack
+## Tech Stack
 
 - **Backend:** Python, Flask
-- **Database:** SQLite
-- **Frontend:** HTML, CSS (custom glassmorphism styling), Jinja2 templating
+- **Database:** PostgreSQL
+- **Frontend:** HTML, CSS, Jinja2
+- **Deployment:** Render
 
-##  How to Run Locally
+## Running it locally
 
-1. Clone the repository
 ```bash
-   git clone https://github.com/yajatnautiyal/student-management-system.git
-   cd student-management-system
+git clone https://github.com/yajatnautiyal/student-management-system.git
+cd student-management-system
+pip install -r requirements.txt
 ```
 
-2. Install Flask
+Set your database URL as an environment variable:
 ```bash
-   pip install flask
+$env:DATABASE_URL="your_postgresql_connection_string"
 ```
 
-3. Initialize the database
+Then initialize the database and run the app:
 ```bash
-   python database.py
+python database.py
+python app.py
 ```
 
-4. Run the app
-```bash
-   python app.py
-```
-
-5. Open your browser and go to
-
-http://127.0.0.1:5000
+Visit `http://127.0.0.1:5000` in your browser.
 
 ## Project Structure
+
 student_management/
-│
-├── app.py                  # Main Flask application
-├── database.py              # Database initialization script
-├── students.db               # SQLite database (auto-generated)
+├── app.py                # Main Flask app and routes
+├── database.py            # Database table setup
 ├── templates/
-│   ├── index.html            # Homepage with dashboard & search
-│   ├── add_student.html      # Add student form
-│   └── edit_student.html     # Edit student form
-└── README.md
+│   ├── index.html          # Dashboard, search, student table
+│   ├── add_student.html    # Add student form
+│   ├── edit_student.html   # Edit student form
+│   └── login.html          # Admin login
+├── requirements.txt
+└── Procfile
 
-##  Future Improvements
+## Possible future additions
 
-- User authentication (login system)
-- Export student data to CSV/PDF
+- Export student data to CSV
 - Pagination for large student lists
+- Password hashing for stronger authentication
 
-##  Author
+## Author
 
-**Yajat Nautiyal**  
+Yajat Nautiyal
 [GitHub](https://github.com/yajatnautiyal)
