@@ -5,8 +5,8 @@ import os
 app = Flask(__name__)
 app.secret_key = 'x7Kp9mQ2vL5rT8wY3nZ6bH4jF1cA0dE'
 
-ADMIN_USERNAME = 'useradm'
-ADMIN_PASSWORD = '@yajat2111'
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
 
 def get_connection():
     database_url = os.environ.get('DATABASE_URL')
